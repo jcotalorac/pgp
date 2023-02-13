@@ -5,5 +5,5 @@
 *.ipr
 *.ids
 *.orig
-classes
+classes/
 
