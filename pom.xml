@@ -8,4 +8,8 @@
     <version>1.0.0-SNAPSHOT</version>
     <description>Project source code for PGP example</description>
 
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
 </project>
