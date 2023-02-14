@@ -12,6 +12,21 @@ public class PGPMain {
         rsaExample();
     }
 
+    private static void hashingKey() {
+        byte[] input = "key".getBytes();
+
+        byte[] hashedKey = getHashedKey("MD5");
+    }
+
+    private static byte[] getHashedKey(String algorithm) {
+        try {
+            MessageDigest md5 = MessageDigest.getInstance(algorithm);
+            return md5.digest();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static void rsaExample() {
         int keySize = 1024;
 
