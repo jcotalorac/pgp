@@ -13,9 +13,11 @@ public class PGPMain {
     public static void main(String[] args) {
         rsaExample();
 
+        int keyMessageSize = 128;
+
         PGP pgp = new PGP();
 
-        System.out.println(new String(pgp.getMessage()));
+        System.out.println(new String(pgp.getMessage("AES", keyMessageSize)));
         System.out.println(new String(pgp.getSignature()));
         System.out.println(new String(pgp.getKey()));
     }
