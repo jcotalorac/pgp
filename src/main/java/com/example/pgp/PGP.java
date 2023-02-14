@@ -6,9 +6,11 @@ import java.security.NoSuchAlgorithmException;
 
 public class PGP {
 
+    private byte[] messageKey;
+
     public byte[] getMessage(String algorithm, int keySize) {
 
-        byte[] messageKey = getMessageKey(algorithm, keySize);
+        messageKey = getMessageKey(algorithm, keySize);
         System.out.println(messageKey);
 
         return new byte[0];
