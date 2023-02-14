@@ -14,10 +14,11 @@ public class PGPMain {
         rsaExample();
 
         int keyMessageSize = 128;
+        byte[] input = "AESMessage".getBytes();
 
         PGP pgp = new PGP();
 
-        System.out.println(new String(pgp.getMessage("AES", keyMessageSize)));
+        System.out.println(new String(pgp.getMessage("AES", keyMessageSize, input)));
         System.out.println(new String(pgp.getSignature()));
         System.out.println(new String(pgp.getKey()));
     }
