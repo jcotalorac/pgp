@@ -1,5 +1,7 @@
 package com.example;
 
+import com.example.pgp.PGP;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -10,6 +12,12 @@ public class PGPMain {
 
     public static void main(String[] args) {
         rsaExample();
+
+        PGP pgp = new PGP();
+
+        System.out.println(new String(pgp.getMessage()));
+        System.out.println(new String(pgp.getSignature()));
+        System.out.println(new String(pgp.getKey()));
     }
 
     private static void hashingKey() {
