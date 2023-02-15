@@ -4,12 +4,13 @@ import javax.crypto.*;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 public class PGP {
 
     private Key messageKey;
 
-    public byte[] getMessage(String algorithm, int keySize, byte[] input) {
+    public byte[] getSecuredMessage(String algorithm, int keySize, byte[] input) {
 
         messageKey = getMessageKey(algorithm, keySize);
         System.out.println(messageKey);
@@ -23,8 +24,9 @@ public class PGP {
         return new byte[0];
     }
 
-    public byte[] getKey() {
-        return new byte[0];
+    public byte[] getKey(String algorithm, PublicKey publicKey) {
+
+        return encryptMessage(messageKey.getEncoded(), publicKey, algorithm);
     }
 
     private Key getMessageKey(String algorithm, int keySize) {
