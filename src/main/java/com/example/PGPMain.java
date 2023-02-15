@@ -2,10 +2,8 @@ package com.example;
 
 import com.example.pgp.PGP;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
 
 public class PGPMain {
@@ -14,7 +12,8 @@ public class PGPMain {
         rsaExample();
 
         int keyMessageSize = 128;
-        byte[] inputMessage = "AESMessage".getBytes();
+        String textMessage = "AESMessage";
+        byte[] inputMessage = textMessage.getBytes();
         String secureMessageAlgorithm = "AES";
 
         PGP pgp = new PGP();
@@ -33,6 +32,32 @@ public class PGPMain {
         System.out.println(new String(securedKey));
         byte[] signature = pgp.getSignature(signAlgorithm, senderKeyPair.getPrivate(), inputMessage);
         System.out.println(new String(signature));
+
+        byte[] decryptedKey = decrypt(messageAlgorithm, receiverKeyPair.getPrivate(), securedKey);
+        System.out.println(decryptedKey);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(decryptedKey, secureMessageAlgorithm);
+        byte[] decryptedMessage = decrypt(secureMessageAlgorithm, secretKeySpec, securedMessage);
+        System.out.println(decryptedMessage);
+        System.out.println(new String(decryptedMessage));
+
+        boolean verifiedSignature = isVerifiedSignature(signAlgorithm, senderKeyPair.getPublic(), signature, decryptedMessage);
+        System.out.println(verifiedSignature);
+
+    }
+
+    private static boolean isVerifiedSignature(String algorithm, PublicKey publicKey, byte[] sign, byte[] input) {
+        try {
+            Signature signature = Signature.getInstance(algorithm);
+            signature.initVerify(publicKey);
+            signature.update(input);
+            return signature.verify(sign);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        } catch (SignatureException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void hashingKey() {
