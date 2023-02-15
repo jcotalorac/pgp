@@ -1,10 +1,7 @@
 package com.example.pgp;
 
 import javax.crypto.*;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import java.security.*;
 
 public class PGP {
 
@@ -20,8 +17,19 @@ public class PGP {
         return encryptedMessage;
     }
 
-    public byte[] getSignature() {
-        return new byte[0];
+    public byte[] getSignature(String algorithm, PrivateKey privateKey, byte[] input) {
+        try {
+            Signature signature = Signature.getInstance(algorithm);
+            signature.initSign(privateKey);
+            signature.update(input);
+            return signature.sign();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        } catch (SignatureException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public byte[] getKey(String algorithm, PublicKey publicKey) {

@@ -14,19 +14,25 @@ public class PGPMain {
         rsaExample();
 
         int keyMessageSize = 128;
-        byte[] input = "AESMessage".getBytes();
+        byte[] inputMessage = "AESMessage".getBytes();
+        String secureMessageAlgorithm = "AES";
 
         PGP pgp = new PGP();
 
-        System.out.println(new String(pgp.getSecuredMessage("AES", keyMessageSize, input)));
+        byte[] securedMessage = pgp.getSecuredMessage(secureMessageAlgorithm, keyMessageSize, inputMessage);
+        System.out.println(new String(securedMessage));
 
         String keyAlgorithm = "RSA";
         String messageAlgorithm = "RSA/ECB/PKCS1Padding";
+        String signAlgorithm = "SHA1withRSA";
         int keySize = 1024;
         KeyPair senderKeyPair = getKeyPair(keyAlgorithm, keySize);
         KeyPair receiverKeyPair = getKeyPair(keyAlgorithm, keySize);
-        System.out.println(new String(pgp.getKey(messageAlgorithm, receiverKeyPair.getPublic())));
-        System.out.println(new String(pgp.getSignature()));
+
+        byte[] securedKey = pgp.getKey(messageAlgorithm, receiverKeyPair.getPublic());
+        System.out.println(new String(securedKey));
+        byte[] signature = pgp.getSignature(signAlgorithm, senderKeyPair.getPrivate(), inputMessage);
+        System.out.println(new String(signature));
     }
 
     private static void hashingKey() {
