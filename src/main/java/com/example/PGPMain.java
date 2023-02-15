@@ -29,7 +29,7 @@ public class PGPMain {
         KeyPair senderKeyPair = getKeyPair(keyAlgorithm, keySize);
         KeyPair receiverKeyPair = getKeyPair(keyAlgorithm, keySize);
 
-        byte[] securedKey = pgp.getKey(messageAlgorithm, receiverKeyPair.getPublic());
+        byte[] securedKey = pgp.getSecuredKey(messageAlgorithm, receiverKeyPair.getPublic());
         System.out.println(new String(securedKey));
         byte[] signature = pgp.getSignature(signAlgorithm, senderKeyPair.getPrivate(), inputMessage);
         System.out.println(new String(signature));

@@ -32,7 +32,7 @@ public class PGP {
         }
     }
 
-    public byte[] getKey(String algorithm, PublicKey publicKey) {
+    public byte[] getSecuredKey(String algorithm, PublicKey publicKey) {
 
         return encryptMessage(messageKey.getEncoded(), publicKey, algorithm);
     }
